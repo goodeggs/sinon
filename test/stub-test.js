@@ -777,6 +777,22 @@ describe("stub", function () {
             refute.defined(myObj.ouch);
         });
 
+        it("throws a relevant error if stubbing with a primitive", function () {
+            var myObj = { meth: function () {} };
+
+            assert.exception(function () {
+                createStub(myObj, "meth", 3);
+            }, {name: "TypeError", message: "Custom stub should be a function or a property descriptor"});
+        });
+
+        it("throws a relevant error if stubbing with an object", function () {
+            var myObj = { meth: function () {} };
+
+            assert.exception(function () {
+                createStub(myObj, "meth", {});
+            }, {name: "TypeError", message: "Custom stub should be a function or a property descriptor"});
+        });
+
         it("has toString method", function () {
             var obj = { meth: function () {} };
             createStub(obj, "meth");
